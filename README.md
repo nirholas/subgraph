@@ -471,7 +471,6 @@ See `examples/queries.graphql` for comprehensive query examples:
 
 - [ERC-8004 Specification](https://eips.ethereum.org/EIP-8004)
 - [The Graph Documentation](https://thegraph.com/docs)
-- [Agent0 SDK](https://github.com/agent0-sdk/agent0-sdk)
 
 ## 📄 License
 
