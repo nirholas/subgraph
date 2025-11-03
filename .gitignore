@@ -38,3 +38,5 @@ coverage/
 *.temp
 .cache/
 
+# From Docker
+data

@@ -33,7 +33,8 @@ npm run build
 npm run deploy
 
 # Or deploy locally for testing
-npm run deploy-local
+# See below for graph node & ipfs setup
+npm run create-local && npm run deploy-local
 ```
 
 ## 📊 Overview
@@ -442,9 +443,11 @@ To deploy for additional chains:
 
 ### Local Development
 
+Ensure that you have Docker installed and running on your machine: https://docs.docker.com/get-started/get-docker. This will come with the `docker compose` set of commands needed below.
+
 ```bash
-# Start local Graph node
-graph node --node-id local --ipfs http://localhost:5001 --http-port 8000
+# Start local Graph node using `compose.yml`
+docker compose up -d
 
 # Create local subgraph
 npm run create-local
@@ -455,7 +458,7 @@ npm run deploy-local
 # Query local endpoint
 curl -X POST \
   -H "Content-Type: application/json" \
-  -d '{"query": "{ agents(first: 5) { id name } }"}' \
+  -d '{"query": "{ agents(first: 5) { id } }"}' \
   http://localhost:8000/subgraphs/name/agent0-sdk/agent0-sdk
 ```
 
