@@ -157,7 +157,11 @@ export function populateRegistrationFromJsonBytes(metadata: AgentRegistrationFil
   }
 
   // Endpoints
-  let endpoints = obj.get("endpoints")
+  // ERC-8004: `services` is the canonical key; `endpoints` is accepted for legacy files.
+  let endpoints = obj.get("services")
+  if (endpoints == null || endpoints.isNull()) {
+    endpoints = obj.get("endpoints")
+  }
   if (endpoints && !endpoints.isNull() && endpoints.kind == JSONValueKind.ARRAY) {
     let endpointsArray = endpoints.toArray()
     metadata.endpointsRawJson = serializeEndpointsRaw(endpointsArray)

@@ -123,9 +123,10 @@ contract IdentityRegistryUpgradeable is
         emit URIUpdated(agentId, newURI, msg.sender);
     }
 
-    function getAgentWallet(uint256 agentId) external view returns (bytes memory) {
+    function getAgentWallet(uint256 agentId) external view returns (address) {
         IdentityRegistryStorage storage $ = _getIdentityRegistryStorage();
-        return $._metadata[agentId]["agentWallet"];
+        bytes memory walletData = $._metadata[agentId]["agentWallet"];
+        return address(bytes20(walletData));
     }
 
     function setAgentWallet(
@@ -148,18 +149,14 @@ contract IdentityRegistryUpgradeable is
         bytes32 structHash = keccak256(abi.encode(AGENT_WALLET_SET_TYPEHASH, agentId, newWallet, owner, deadline));
         bytes32 digest = _hashTypedDataV4(structHash);
 
-        // Try ECDSA first, fallback to ERC1271 if wallet has code
-        address recovered = ECDSA.recover(digest, signature);
-        if (recovered != newWallet) {
-            require(newWallet.code.length > 0, "invalid wallet sig");
-            // Use staticcall to prevent reentrancy during signature verification
-            (bool success, bytes memory result) = newWallet.staticcall(
+        // Try ECDSA first (EOAs + EIP-7702 delegated EOAs)
+        (address recovered, ECDSA.RecoverError err, ) = ECDSA.tryRecover(digest, signature);
+        if (err != ECDSA.RecoverError.NoError || recovered != newWallet) {
+            // ECDSA failed, try ERC1271 (smart contract wallets)
+            (bool ok, bytes memory res) = newWallet.staticcall(
                 abi.encodeCall(IERC1271.isValidSignature, (digest, signature))
             );
-            require(
-                success && result.length >= 32 && abi.decode(result, (bytes4)) == ERC1271_MAGICVALUE,
-                "invalid wallet sig"
-            );
+            require(ok && res.length >= 32 && abi.decode(res, (bytes4)) == ERC1271_MAGICVALUE, "invalid wallet sig");
         }
 
         IdentityRegistryStorage storage $ = _getIdentityRegistryStorage();
@@ -199,6 +196,15 @@ contract IdentityRegistryUpgradeable is
         }
 
         return super._update(to, tokenId, auth);
+    }
+
+    /**
+     * @notice Checks if spender is owner or approved for the agent
+     * @dev Reverts with ERC721NonexistentToken if agent doesn't exist
+     */
+    function isAuthorizedOrOwner(address spender, uint256 agentId) external view returns (bool) {
+        address owner = ownerOf(agentId);
+        return _isAuthorized(owner, spender, agentId);
     }
 
     function getVersion() external pure returns (string memory) {

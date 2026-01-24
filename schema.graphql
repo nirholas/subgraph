@@ -240,13 +240,28 @@ type FeedbackFile @entity(immutable: true) {
   # Feedback link (passed via context)
   feedbackId: String! # Format: "chainId:agentId:clientAddress:feedbackIndex"
   
-  # IPFS file data
+  # ERC-8004 off-chain feedback envelope (spec)
+  agentRegistry: String
+  agentId: BigInt
+  clientAddress: String
+  createdAtIso: String
+  valueRaw: BigInt
+  valueDecimals: Int
+
+  # IPFS file data (rich/off-chain)
   text: String
-  capability: String
-  name: String
-  skill: String
-  task: String
-  context: String
+
+  # ERC-8004 nested objects (spec)
+  mcpTool: String
+  mcpPrompt: String
+  mcpResource: String
+
+  a2aSkills: [String!]!
+  a2aContextId: String
+  a2aTaskId: String
+
+  oasfSkills: [String!]!
+  oasfDomains: [String!]!
   
   # Proof of payment
   proofOfPaymentFromAddress: String

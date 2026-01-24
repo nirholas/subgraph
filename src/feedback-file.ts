@@ -19,6 +19,9 @@ export function parseFeedbackFile(content: Bytes): void {
   feedbackFile.cid = cid
   feedbackFile.feedbackId = feedbackId
   feedbackFile.createdAt = context.getBigInt('timestamp')
+  feedbackFile.a2aSkills = []
+  feedbackFile.oasfSkills = []
+  feedbackFile.oasfDomains = []
   
   let result = json.try_fromBytes(content)
   if (result.isError) {
@@ -41,42 +44,111 @@ export function parseFeedbackFile(content: Bytes): void {
     feedbackFile.save()
     return
   }
+
+  // ERC-8004 envelope fields (spec)
+  let agentRegistry = obj.get('agentRegistry')
+  if (agentRegistry && !agentRegistry.isNull() && agentRegistry.kind == JSONValueKind.STRING) {
+    feedbackFile.agentRegistry = agentRegistry.toString()
+  }
+
+  let agentId = obj.get('agentId')
+  if (agentId && !agentId.isNull() && agentId.kind == JSONValueKind.NUMBER) {
+    feedbackFile.agentId = agentId.toBigInt()
+  }
+
+  let clientAddress = obj.get('clientAddress')
+  if (clientAddress && !clientAddress.isNull() && clientAddress.kind == JSONValueKind.STRING) {
+    feedbackFile.clientAddress = clientAddress.toString()
+  }
+
+  let createdAtIso = obj.get('createdAt')
+  if (createdAtIso && !createdAtIso.isNull() && createdAtIso.kind == JSONValueKind.STRING) {
+    feedbackFile.createdAtIso = createdAtIso.toString()
+  }
+
+  let valueRaw = obj.get('value')
+  if (valueRaw && !valueRaw.isNull() && valueRaw.kind == JSONValueKind.NUMBER) {
+    feedbackFile.valueRaw = valueRaw.toBigInt()
+  }
+
+  let valueDecimals = obj.get('valueDecimals')
+  if (valueDecimals && !valueDecimals.isNull() && valueDecimals.kind == JSONValueKind.NUMBER) {
+    feedbackFile.valueDecimals = valueDecimals.toBigInt().toI32()
+  }
   
   let text = obj.get('text')
   if (text && !text.isNull() && text.kind == JSONValueKind.STRING) {
     feedbackFile.text = text.toString()
   }
-  
-  let capability = obj.get('capability')
-  if (capability && !capability.isNull() && capability.kind == JSONValueKind.STRING) {
-    feedbackFile.capability = capability.toString()
+
+  // ERC-8004 nested objects (spec only)
+  let mcp = obj.get('mcp')
+  if (mcp && !mcp.isNull() && mcp.kind == JSONValueKind.OBJECT) {
+    let m = mcp.toObject()
+    if (m != null) {
+      let tool = m.get('tool')
+      if (tool && !tool.isNull() && tool.kind == JSONValueKind.STRING) feedbackFile.mcpTool = tool.toString()
+      let prompt = m.get('prompt')
+      if (prompt && !prompt.isNull() && prompt.kind == JSONValueKind.STRING) feedbackFile.mcpPrompt = prompt.toString()
+      let resource = m.get('resource')
+      if (resource && !resource.isNull() && resource.kind == JSONValueKind.STRING) feedbackFile.mcpResource = resource.toString()
+    }
   }
-  
-  let name = obj.get('name')
-  if (name && !name.isNull() && name.kind == JSONValueKind.STRING) {
-    feedbackFile.name = name.toString()
+
+  let a2a = obj.get('a2a')
+  if (a2a && !a2a.isNull() && a2a.kind == JSONValueKind.OBJECT) {
+    let a = a2a.toObject()
+    if (a != null) {
+      let skills = a.get('skills')
+      if (skills && !skills.isNull() && skills.kind == JSONValueKind.ARRAY) {
+        let arr = skills.toArray()
+        let out: string[] = []
+        for (let i = 0; i < arr.length; i++) {
+          if (arr[i].kind == JSONValueKind.STRING) out.push(arr[i].toString())
+        }
+        feedbackFile.a2aSkills = out
+      }
+
+      let contextId = a.get('contextId')
+      if (contextId && !contextId.isNull() && contextId.kind == JSONValueKind.STRING) {
+        feedbackFile.a2aContextId = contextId.toString()
+      }
+
+      let taskId = a.get('taskId')
+      if (taskId && !taskId.isNull() && taskId.kind == JSONValueKind.STRING) {
+        feedbackFile.a2aTaskId = taskId.toString()
+      }
+    }
   }
-  
-  let skill = obj.get('skill')
-  if (skill && !skill.isNull() && skill.kind == JSONValueKind.STRING) {
-    feedbackFile.skill = skill.toString()
+
+  let oasf = obj.get('oasf')
+  if (oasf && !oasf.isNull() && oasf.kind == JSONValueKind.OBJECT) {
+    let o = oasf.toObject()
+    if (o != null) {
+      let skills = o.get('skills')
+      if (skills && !skills.isNull() && skills.kind == JSONValueKind.ARRAY) {
+        let arr = skills.toArray()
+        let out: string[] = []
+        for (let i = 0; i < arr.length; i++) {
+          if (arr[i].kind == JSONValueKind.STRING) out.push(arr[i].toString())
+        }
+        feedbackFile.oasfSkills = out
+      }
+
+      let domains = o.get('domains')
+      if (domains && !domains.isNull() && domains.kind == JSONValueKind.ARRAY) {
+        let arr = domains.toArray()
+        let out: string[] = []
+        for (let i = 0; i < arr.length; i++) {
+          if (arr[i].kind == JSONValueKind.STRING) out.push(arr[i].toString())
+        }
+        feedbackFile.oasfDomains = out
+      }
+    }
   }
-  
-  let task = obj.get('task')
-  if (task && !task.isNull() && task.kind == JSONValueKind.STRING) {
-    feedbackFile.task = task.toString()
-  }
-  
-  let contextStr = obj.get('context')
-  if (contextStr && !contextStr.isNull() && contextStr.kind == JSONValueKind.STRING) {
-    feedbackFile.context = contextStr.toString()
-  }
-  
-  // Try new format first (proofOfPayment), fallback to old format (proof_of_payment) for backward compatibility
+
+  // Proof of payment (spec key only)
   let proofOfPayment = obj.get('proofOfPayment')
-  if (proofOfPayment == null || proofOfPayment.isNull()) {
-    proofOfPayment = obj.get('proof_of_payment')  // Backward compatibility
-  }
   if (proofOfPayment && !proofOfPayment.isNull() && proofOfPayment.kind == JSONValueKind.OBJECT) {
     let proofObj = proofOfPayment.toObject()
     if (proofObj != null) {

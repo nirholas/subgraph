@@ -6,6 +6,7 @@ const path = require('path');
 
 const ROOT_DIR = path.join(__dirname, '..');
 const DEPLOYMENT_FILE = path.join(ROOT_DIR, 'deployments', 'deployment.json');
+const DEFAULT_VERSION_LABEL = 'dev';
 
 // Colors
 const colors = {

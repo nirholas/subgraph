@@ -153,10 +153,13 @@ if (chainId.equals(BigInt.fromI32(123456))) {
 ```bash
 # Deploy to The Graph Studio (requires auth token)
 # Set your deployment key first:
-# graph auth --studio <DEPLOY_KEY>
+# npx graph auth --studio <DEPLOY_KEY>
 
 # Deploy specific network
 DEPLOYMENT=erc-8004-eth-sepolia npm run deploy
+
+# Deploy to Graph Studio (recommended; lets you set a release label)
+# STUDIO_SLUG=<your-studio-subgraph-slug> DEPLOYMENT=erc-8004-eth-sepolia VERSION_LABEL=<your-release-label> npm run deploy:studio
 
 # Or deploy locally for testing
 npm run create-local && npm run deploy-local
