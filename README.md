@@ -1,6 +1,6 @@
 # Agent0 SDK Subgraph
 
-A multi-chain subgraph for indexing [ERC-8004](https://eips.ethereum.org/EIP-8004) Trustless Agents protocol data, providing GraphQL APIs for agent discovery, reputation tracking, and validation across 7 networks.
+A multi-chain subgraph for indexing [ERC-8004](https://eips.ethereum.org/EIP-8004) Trustless Agents protocol data, providing GraphQL APIs for agent discovery, reputation tracking, and validation across 8 networks.
 
 **Bug reports & feedback:** Telegram: [Agent0 channel](https://t.me/agent0kitchen) | Email: team@ag0.xyz
 
@@ -8,6 +8,7 @@ A multi-chain subgraph for indexing [ERC-8004](https://eips.ethereum.org/EIP-800
 
 | Network | Chain ID | Status | Endpoint |
 |---------|----------|--------|----------|
+| **Ethereum Mainnet** | 1 | ✅ Deployed | [Endpoint](https://gateway.thegraph.com/api/subgraphs/id/FX78UzofJFr5h2Udznv7pZ2uLG1JBbYsPm7eecRSYnty) |
 | **Ethereum Sepolia** | 11155111 | ✅ Deployed | [Endpoint](https://gateway.thegraph.com/api/subgraphs/id/6wQRC7geo9XYAhckfmfo8kbMRLeWU8KQd3XsJqFKmZLT) |
 | **Base Sepolia** | 84532 | ⛔️ Contracts not deployed | - |
 | **Polygon Amoy** | 80002 | ⛔️ Contracts not deployed | - |
@@ -15,6 +16,8 @@ A multi-chain subgraph for indexing [ERC-8004](https://eips.ethereum.org/EIP-800
 | **Hedera Testnet** | 296 | ⛔️ Contracts not deployed | - |
 | **HyperEVM Testnet** | 998 | ⛔️ Contracts not deployed | - |
 | **SKALE Base Sepolia** | 1351057110 | ⛔️ Contracts not deployed | - |
+
+Note: The Graph Gateway endpoints require authentication (API key / authorization header). If you see an “auth error”, use the gateway form `https://gateway.thegraph.com/api/<API_KEY>/subgraphs/id/<SUBGRAPH_ID>`.
 
 ## 🚀 Quick Start
 
@@ -41,7 +44,7 @@ npm run build:all
 
 ## 🛠️ Multi-Chain Development
 
-This subgraph uses a **template-based multi-chain architecture** inspired by Messari's subgraph infrastructure, enabling a single codebase to deploy across 7 networks with minimal duplication.
+This subgraph uses a **template-based multi-chain architecture** inspired by Messari's subgraph infrastructure, enabling a single codebase to deploy across 8 networks with minimal duplication.
 
 ### Architecture Overview
 
@@ -51,14 +54,14 @@ This subgraph uses a **template-based multi-chain architecture** inspired by Mes
 │   ├── networks/                 # Network-specific configurations
 │   │   ├── eth-sepolia.json      # Contract addresses, start blocks
 │   │   ├── base-sepolia.json
-│   │   └── ... (7 networks)
+│   │   └── ... (8 networks)
 │   └── subgraph.template.yaml    # Mustache template for manifests
 ├── deployments/
 │   ├── deployment.json           # Master deployment tracking
 │   └── generated/                # Generated subgraph.yaml files
 │       ├── erc-8004-eth-sepolia/
 │       ├── erc-8004-base-sepolia/
-│       └── ... (7 deployments)
+│       └── ... (8 deployments)
 ├── src/                          # Shared handler code (95%+ reuse)
 └── scripts/                      # Build automation
 ```
@@ -182,7 +185,7 @@ This subgraph indexes data from three core smart contracts implementing the ERC-
 - ✅ **Validation Tracking** - Complete validation lifecycle with status management
 - 📁 **IPFS Integration** - Native JSON parsing via File Data Sources
 - 🔄 **Rich Relationships** - Connected data through derived fields and references
-- 🌐 **Multi-Chain Support** - Single codebase deploying to 7 networks
+- 🌐 **Multi-Chain Support** - Single codebase deploying to 8 networks
 
 ## 🏗️ Architecture
 

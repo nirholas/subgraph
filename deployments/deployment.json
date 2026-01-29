@@ -15,6 +15,17 @@
           "subgraph": "1.0.0"
         }
       },
+      "erc-8004-eth-mainnet": {
+        "network": "eth-mainnet",
+        "displayName": "Ethereum Mainnet",
+        "chainId": "1",
+        "status": "prod",
+        "configFile": "config/networks/eth-mainnet.json",
+        "versions": {
+          "schema": "1.0.0",
+          "subgraph": "1.0.0"
+        }
+      },
       "erc-8004-base-sepolia": {
         "network": "base-sepolia",
         "displayName": "Base Sepolia",
