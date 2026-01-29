@@ -8,7 +8,7 @@ A multi-chain subgraph for indexing [ERC-8004](https://eips.ethereum.org/EIP-800
 
 | Network | Chain ID | Status | Endpoint |
 |---------|----------|--------|----------|
-| **Ethereum Mainnet** | 1 | ✅ Deployed | [Endpoint](https://gateway.thegraph.com/api/subgraphs/id/FX78UzofJFr5h2Udznv7pZ2uLG1JBbYsPm7eecRSYnty) |
+| **Ethereum Mainnet** | 1 | ✅ Deployed | [Endpoint](https://gateway.thegraph.com/api/subgraphs/id/FV6RR6y13rsnCxBAicKuQEwDp8ioEGiNaWaZUmvr1F8k) |
 | **Ethereum Sepolia** | 11155111 | ✅ Deployed | [Endpoint](https://gateway.thegraph.com/api/subgraphs/id/6wQRC7geo9XYAhckfmfo8kbMRLeWU8KQd3XsJqFKmZLT) |
 | **Base Sepolia** | 84532 | ⛔️ Contracts not deployed | - |
 | **Polygon Amoy** | 80002 | ⛔️ Contracts not deployed | - |
