@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use subgraph, please cite it as below."
+type: software
+title: "subgraph"
+abstract: "A subgraph for indexing ERC-8004 protocol data"
+authors:
+  - alias: nirholas
+    name: nirholas
+repository-code: "https://github.com/nirholas/subgraph"
+url: "https://github.com/nirholas/subgraph"
+license: MIT
+version: "1.0.0"
+date-released: "2026-02-11"
+keywords:
+  - open-source
+  - nirholas

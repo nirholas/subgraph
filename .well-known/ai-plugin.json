@@ -1,0 +1,16 @@
+{
+    "schema_version": "v1",
+    "name_for_human": "subgraph",
+    "name_for_model": "subgraph",
+    "description_for_human": "A subgraph for indexing ERC-8004 protocol data",
+    "description_for_model": "A subgraph for indexing ERC-8004 protocol data",
+    "auth": {
+        "type": "none"
+    },
+    "api": {
+        "type": "none"
+    },
+    "logo_url": "https://github.com/nirholas.png",
+    "contact_email": "nirholas@users.noreply.github.com",
+    "legal_info_url": "https://github.com/nirholas/subgraph/blob/main/LICENSE"
+}

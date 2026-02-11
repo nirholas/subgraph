@@ -1,0 +1,13 @@
+{
+    "name": "subgraph",
+    "description": "A subgraph for indexing ERC-8004 protocol data",
+    "version": "1.0.0",
+    "publisher": "nirholas",
+    "repository": "https://github.com/nirholas/subgraph",
+    "language": "TypeScript",
+    "topics": [
+        "subgraph",
+        "nirholas",
+        "open-source"
+    ]
+}

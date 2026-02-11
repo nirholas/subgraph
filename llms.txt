@@ -1,0 +1,9 @@
+# subgraph
+
+> A subgraph for indexing ERC-8004 protocol data
+
+## Links
+
+- Repository: https://github.com/nirholas/subgraph
+- Author: https://github.com/nirholas
+- Full documentation: https://raw.githubusercontent.com/nirholas/subgraph/main/llms-full.txt

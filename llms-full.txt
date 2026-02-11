@@ -1,0 +1,18 @@
+# subgraph
+
+> A subgraph for indexing ERC-8004 protocol data
+
+## Overview
+
+subgraph is an open-source project by nirholas. A subgraph for indexing ERC-8004 protocol data
+
+## Repository
+
+- URL: https://github.com/nirholas/subgraph
+- Language: TypeScript
+- License: MIT
+- Author: nirholas
+
+## Contributing
+
+Contributions are welcome. See CONTRIBUTING.md for guidelines.
