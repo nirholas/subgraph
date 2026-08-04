@@ -1,8 +1,8 @@
 {
-  "name": "agent0-sdk-subgraph",
-  "version": "1.0.0",
+  "name": "@nirholas/subgraph",
+  "version": "1.0.2",
   "description": "Subgraph for Agent0 SDK - ERC-8004 Agent Discovery and Trust",
-  "repository": "https://github.com/agent0-sdk/subgraph",
+  "repository": "https://github.com/nirholas/subgraph",
   "license": "MIT",
   "scripts": {
     "validate": "node scripts/validate.js",
@@ -20,12 +20,10 @@
     "remove-local": "graph remove --node http://localhost:8020/ agent0-sdk/agent0-sdk",
     "test": "graph test"
   },
-  "dependencies": {
+  "devDependencies": {
+    "matchstick-as": "0.5.2",
     "@graphprotocol/graph-cli": "^0.98.1",
     "@graphprotocol/graph-ts": "0.31.0",
     "mustache": "^4.2.0"
-  },
-  "devDependencies": {
-    "matchstick-as": "0.5.2"
   }
 }
